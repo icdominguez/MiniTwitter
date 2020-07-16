@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MiniTwitter</string>
+    <string name="login_email">Correo electrónico</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_login">Iniciar sesión</string>
+    <string name="login_create_account">Si aún no tienes cuenta, regístrate aquí.</string>
+    <string name="signup_goToLogin">Si ya dispone de una cuenta, inicie sesión aquí.</string>
+    <string name="btn_signUp">Registrarme</string>
+    <string name="hint_username">Nombre de usuario</string>
+</resources>
