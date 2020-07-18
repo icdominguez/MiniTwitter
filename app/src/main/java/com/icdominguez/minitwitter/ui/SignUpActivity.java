@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.icdominguez.minitwitter.R;
+import com.icdominguez.minitwitter.common.Constants;
+import com.icdominguez.minitwitter.common.SharedPreferencesManager;
 import com.icdominguez.minitwitter.retrofit.MiniTwitterClient;
 import com.icdominguez.minitwitter.retrofit.MiniTwitterService;
 import com.icdominguez.minitwitter.retrofit.request.RequestSignUp;
@@ -96,11 +98,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             call.enqueue(new Callback<ResponseAuth>() {
                 @Override
                 public void onResponse(Call<ResponseAuth> call, Response<ResponseAuth> response) {
-                    if(response.isSuccessful()){
+                    if(response.isSuccessful()) {
+
+                        Toast.makeText(SignUpActivity.this, "Registro realizado", Toast.LENGTH_SHORT).show();
+
+                        SharedPreferencesManager.setSomeStringValue(Constants.PREF_TOKEN, response.body().getToken());
+                        SharedPreferencesManager.setSomeStringValue(Constants.PREF_USERNAME, response.body().getUsername());
+                        SharedPreferencesManager.setSomeStringValue(Constants.PREF_EMAIL, response.body().getEmail());
+                        SharedPreferencesManager.setSomeStringValue(Constants.PREF_PHOTOURL, response.body().getPhotoUrl());
+                        SharedPreferencesManager.setSomeStringValue(Constants.PREF_CREATED, response.body().getCreated());
+                        SharedPreferencesManager.setSomeBooleanValue(Constants.PREF_TOKEN, response.body().getActive());
+
                         Intent intentDashboard = new Intent(SignUpActivity.this, DashboardActivity.class);
                         startActivity(intentDashboard);
                         finish();
-                        Toast.makeText(SignUpActivity.this, "Registro realizado", Toast.LENGTH_SHORT).show();
+
                     } else {
                         Toast.makeText(SignUpActivity.this, "Ups ... algo ha ido mal", Toast.LENGTH_SHORT).show();
                     }

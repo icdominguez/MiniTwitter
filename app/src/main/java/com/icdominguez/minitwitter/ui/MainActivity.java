@@ -3,6 +3,7 @@ package com.icdominguez.minitwitter.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.icdominguez.minitwitter.R;
+import com.icdominguez.minitwitter.common.Constants;
+import com.icdominguez.minitwitter.common.SharedPreferencesManager;
 import com.icdominguez.minitwitter.retrofit.MiniTwitterClient;
 import com.icdominguez.minitwitter.retrofit.MiniTwitterService;
 import com.icdominguez.minitwitter.retrofit.request.RequestLogin;
@@ -91,6 +94,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onResponse(Call<ResponseAuth> call, Response<ResponseAuth> response) {
                     if(response.isSuccessful()) {
                         Toast.makeText(MainActivity.this, "Sesion iniciada correctamente", Toast.LENGTH_SHORT).show();
+
+                        SharedPreferencesManager.setSomeStringValue(Constants.PREF_TOKEN, response.body().getToken());
+                        SharedPreferencesManager.setSomeStringValue(Constants.PREF_USERNAME, response.body().getUsername());
+                        SharedPreferencesManager.setSomeStringValue(Constants.PREF_EMAIL, response.body().getEmail());
+                        SharedPreferencesManager.setSomeStringValue(Constants.PREF_PHOTOURL, response.body().getPhotoUrl());
+                        SharedPreferencesManager.setSomeStringValue(Constants.PREF_CREATED, response.body().getCreated());
+                        SharedPreferencesManager.setSomeBooleanValue(Constants.PREF_TOKEN, response.body().getActive());
 
                         Intent intentDasboard = new Intent(MainActivity.this, DashboardActivity.class);
                         startActivity(intentDasboard);
