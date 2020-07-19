@@ -75,6 +75,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 goToLogin();
                 break;
         }
+
     }
 
     private void goToSignUp() {
@@ -107,7 +108,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         SharedPreferencesManager.setSomeStringValue(Constants.PREF_EMAIL, response.body().getEmail());
                         SharedPreferencesManager.setSomeStringValue(Constants.PREF_PHOTOURL, response.body().getPhotoUrl());
                         SharedPreferencesManager.setSomeStringValue(Constants.PREF_CREATED, response.body().getCreated());
-                        SharedPreferencesManager.setSomeBooleanValue(Constants.PREF_TOKEN, response.body().getActive());
+                        SharedPreferencesManager.setSomeBooleanValue(Constants.PREF_ACTIVE, response.body().getActive());
 
                         Intent intentDashboard = new Intent(SignUpActivity.this, DashboardActivity.class);
                         startActivity(intentDashboard);

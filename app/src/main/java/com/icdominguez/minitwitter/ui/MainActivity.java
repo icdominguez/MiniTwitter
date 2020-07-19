@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         SharedPreferencesManager.setSomeStringValue(Constants.PREF_EMAIL, response.body().getEmail());
                         SharedPreferencesManager.setSomeStringValue(Constants.PREF_PHOTOURL, response.body().getPhotoUrl());
                         SharedPreferencesManager.setSomeStringValue(Constants.PREF_CREATED, response.body().getCreated());
-                        SharedPreferencesManager.setSomeBooleanValue(Constants.PREF_TOKEN, response.body().getActive());
+                        SharedPreferencesManager.setSomeBooleanValue(Constants.PREF_ACTIVE, response.body().getActive());
 
                         Intent intentDasboard = new Intent(MainActivity.this, DashboardActivity.class);
                         startActivity(intentDasboard);
