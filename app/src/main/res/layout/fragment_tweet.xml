@@ -7,7 +7,7 @@
     android:padding="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageViewAvatar"
+        android:id="@+id/imageViewUserPhoto"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:padding="8dp"
@@ -23,8 +23,8 @@
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageViewAvatar"
-        app:layout_constraintTop_toTopOf="@+id/imageViewAvatar" />
+        app:layout_constraintStart_toEndOf="@+id/imageViewUserPhoto"
+        app:layout_constraintTop_toTopOf="@+id/imageViewUserPhoto" />
 
     <TextView
         android:id="@+id/textViewContent"

@@ -1,4 +1,4 @@
-package com.icdominguez.minitwitter;
+package com.icdominguez.minitwitter.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,18 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.icdominguez.minitwitter.MyTweetRecyclerViewAdapter;
+import com.icdominguez.minitwitter.R;
 import com.icdominguez.minitwitter.data.TweetViewModel;
-import com.icdominguez.minitwitter.retrofit.AuthMiniTwitterClient;
-import com.icdominguez.minitwitter.retrofit.AuthMiniTwitterService;
 import com.icdominguez.minitwitter.retrofit.response.Tweet;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A fragment representing a list of Items.

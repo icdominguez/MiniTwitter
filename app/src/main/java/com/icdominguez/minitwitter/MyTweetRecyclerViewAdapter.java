@@ -48,10 +48,16 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
 
             String photo = holder.mItem.getUser().getPhotoUrl();
             if(!photo.equals("")) {
-                Glide.with(ctx)
-                        .load("https://www.minitwitter.com/apiv1/uploads/photos/" + holder.mItem.getUser().getPhotoUrl())
-                        .into(holder.ivAvatar);
+                Glide.with(ctx).load("https://www.minitwitter.com/apiv1/uploads/photos/" + photo).into(holder.ivAvatar);
+            } else {
+                holder.ivAvatar.setBackground(ctx.getResources().getDrawable(R.drawable.ic_baseline_account_circle_24));
             }
+
+            Glide.with(ctx)
+                    .load(R.drawable.ic_like)
+                    .into(holder.ivLike);
+            holder.tvNumLikes.setTextColor(ctx.getResources().getColor(android.R.color.black));
+            holder.tvNumLikes.setTypeface(null, Typeface.BOLD);
 
             for(Like like : holder.mItem.getLikes()) {
                 if(like.getUsername().equals(username)) {
@@ -95,7 +101,7 @@ public class MyTweetRecyclerViewAdapter extends RecyclerView.Adapter<MyTweetRecy
             mView = view;
             tvUsername = view.findViewById(R.id.textViewUsername);
             tvContent = view.findViewById(R.id.textViewContent);
-            ivAvatar = view.findViewById(R.id.imageViewAvatar);
+            ivAvatar = view.findViewById(R.id.imageViewUserPhoto);
             ivLike = view.findViewById(R.id.imageViewLike);
             tvNumLikes = view.findViewById(R.id.textViewNumLikes);
         }
