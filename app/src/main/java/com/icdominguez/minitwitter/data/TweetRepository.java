@@ -2,16 +2,20 @@ package com.icdominguez.minitwitter.data;
 
 import android.widget.Toast;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.icdominguez.minitwitter.common.Constants;
 import com.icdominguez.minitwitter.common.MyApp;
+import com.icdominguez.minitwitter.common.SharedPreferencesManager;
 import com.icdominguez.minitwitter.retrofit.AuthMiniTwitterClient;
 import com.icdominguez.minitwitter.retrofit.AuthMiniTwitterService;
 import com.icdominguez.minitwitter.retrofit.request.RequestCreateTweet;
+import com.icdominguez.minitwitter.retrofit.response.Like;
 import com.icdominguez.minitwitter.retrofit.response.Tweet;
+import com.icdominguez.minitwitter.retrofit.response.TweetDeleted;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -23,11 +27,14 @@ public class TweetRepository {
     private AuthMiniTwitterService authMiniTwitterService;
     private AuthMiniTwitterClient authMiniTwitterClient;
     MutableLiveData<List<Tweet>> allTweets;
+    MutableLiveData<List<Tweet>> favTweets;
+    String username;
 
     TweetRepository() {
         authMiniTwitterClient = AuthMiniTwitterClient.getInstance();
         authMiniTwitterService = authMiniTwitterClient.getAuthMiniTwitterService();
         allTweets = getAllTweets();
+        username = SharedPreferencesManager.getSomeStringValue(Constants.PREF_USERNAME);
     }
 
     public MutableLiveData<List<Tweet>> getAllTweets () {
@@ -57,6 +64,34 @@ public class TweetRepository {
         return allTweets;
     }
 
+    public MutableLiveData<List<Tweet>> getFavTweets () {
+        if(favTweets == null) {
+            favTweets = new MutableLiveData<>();
+        }
+
+        List<Tweet> newFavList = new ArrayList<>();
+
+        Iterator itTweets = allTweets.getValue().iterator();
+
+        while(itTweets.hasNext()) {
+            Tweet currentTweet = (Tweet) itTweets.next();
+            Iterator itLikes = currentTweet.getLikes().iterator();
+            boolean enc = false;
+
+            while (itLikes.hasNext() && !enc) {
+                Like like = (Like)itLikes.next();
+                if(like.getUsername().equals(username)) {
+                    enc = true;
+                    newFavList.add(currentTweet);
+                }
+            }
+        }
+
+        favTweets.setValue(newFavList);
+
+        return favTweets;
+    }
+
     public void createTweet (String tweet) {
         RequestCreateTweet requestCreateTweet = new RequestCreateTweet(tweet);
         Call<Tweet> call = authMiniTwitterService.createTweet(requestCreateTweet);
@@ -74,6 +109,67 @@ public class TweetRepository {
                     }
 
                     allTweets.setValue(clonedList);
+
+                } else {
+                    Toast.makeText(MyApp.getContext(), "Algo ha ido mal, inténtelo de nuevo",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Tweet> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Problemas con la conexión, vuelva a intentarlo más tarde",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void deleteTweet(final int idTweet) {
+        Call<TweetDeleted> call = authMiniTwitterService.deleteTweet(idTweet);
+
+        call.enqueue(new Callback<TweetDeleted>() {
+            @Override
+            public void onResponse(Call<TweetDeleted> call, Response<TweetDeleted> response) {
+                if(response.isSuccessful()) {
+                    List<Tweet> clonedTweets = new ArrayList<>();
+                    for(int i=0; i < allTweets.getValue().size(); i++) {
+                        if(allTweets.getValue().get(i).getId() != idTweet) {
+                            clonedTweets.add(new Tweet(allTweets.getValue().get(i)));
+                        }
+                    }
+                    allTweets.setValue(clonedTweets);
+                    getFavTweets();
+
+                } else {
+                    Toast.makeText(MyApp.getContext(), "Algo ha ido mal, inténtelo de nuevo",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TweetDeleted> call, Throwable t) {
+                Toast.makeText(MyApp.getContext(), "Problemas con la conexión, vuelva a intentarlo más tarde",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void likeTweet (int idTweet) {
+        Call<Tweet> call = authMiniTwitterService.likeTweet(idTweet);
+
+        call.enqueue(new Callback<Tweet>() {
+            @Override
+            public void onResponse(Call<Tweet> call, Response<Tweet> response) {
+                if(response.isSuccessful()) {
+                    List<Tweet> clonedList = new ArrayList<>();
+
+                    for(int i=0; i < allTweets.getValue().size(); i++) {
+                        if(allTweets.getValue().get(i).getId() == idTweet) {
+                            clonedList.add(response.body());
+                        } else {
+                            clonedList.add(new Tweet(allTweets.getValue().get(i)));
+                        }
+                    }
+
+                    allTweets.setValue(clonedList);
+
+                    getFavTweets();
 
                 } else {
                     Toast.makeText(MyApp.getContext(), "Algo ha ido mal, inténtelo de nuevo",Toast.LENGTH_SHORT).show();

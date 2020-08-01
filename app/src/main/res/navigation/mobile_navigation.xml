@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.icdominguez.minitwitter.ui.TweetListFragment"
+        android:name="com.icdominguez.minitwitter.ui.tweets.TweetListFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_tweet_list" />
 
     <fragment
         android:id="@+id/navigation_tweets_like"
-        android:name="com.icdominguez.minitwitter.ui.TweetListFragment"
+        android:name="com.icdominguez.minitwitter.ui.tweets.TweetListFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_tweet_list" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.icdominguez.minitwitter.ui.TweetListFragment"
+        android:name="com.icdominguez.minitwitter.ui.tweets.TweetListFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_tweet_list" />
 </navigation>

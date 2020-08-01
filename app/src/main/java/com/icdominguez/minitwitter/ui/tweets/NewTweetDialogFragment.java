@@ -1,4 +1,4 @@
-package com.icdominguez.minitwitter.ui;
+package com.icdominguez.minitwitter.ui.tweets;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

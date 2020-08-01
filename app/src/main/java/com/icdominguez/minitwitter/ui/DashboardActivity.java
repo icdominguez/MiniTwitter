@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -14,6 +15,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.icdominguez.minitwitter.R;
 import com.icdominguez.minitwitter.common.Constants;
 import com.icdominguez.minitwitter.common.SharedPreferencesManager;
+import com.icdominguez.minitwitter.ui.profile.ProfileFragment;
+import com.icdominguez.minitwitter.ui.tweets.NewTweetDialogFragment;
+import com.icdominguez.minitwitter.ui.tweets.TweetListFragment;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -24,17 +28,35 @@ public class DashboardActivity extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+        Fragment f = null;
+
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    return true;
-                case R.id.navigation_tweets_like:
-                    return true;
-                case R.id.navigation_profile:
 
-                    return true;
+                case R.id.navigation_home:
+                    f = TweetListFragment.newInstance(Constants.TWEET_LIST_ALL);
+                    fab.show();
+                    break;
+                case R.id.navigation_tweets_like:
+                    f = TweetListFragment.newInstance(Constants.TWEET_LIST_FAVS);
+                    fab.hide();
+                    break;
+                case R.id.navigation_profile:
+                    f = new ProfileFragment();
+                    fab.hide();
+                    break;
             }
+
+            if(f != null) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainer, f)
+                        .commit();
+                return true;
+
+            }
+
             return false;
         }
     };
@@ -54,7 +76,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragmentContainer, new TweetListFragment())
+                .add(R.id.fragmentContainer, TweetListFragment.newInstance(Constants.TWEET_LIST_ALL))
                 .commit();
 
         fab.setOnClickListener(new View.OnClickListener() {

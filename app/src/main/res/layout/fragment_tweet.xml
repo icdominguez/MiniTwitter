@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageViewUserPhoto"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -31,6 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textViewUsername"
@@ -41,7 +43,7 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewAvatar"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewUserPhoto"
         app:layout_constraintStart_toStartOf="@+id/textViewContent"
         app:layout_constraintTop_toBottomOf="@+id/textViewContent"
         app:srcCompat="@drawable/ic_like" />
@@ -56,4 +58,23 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageViewLike"
         app:layout_constraintStart_toEndOf="@+id/imageViewLike"
         app:layout_constraintTop_toTopOf="@+id/imageViewLike" />
+
+    <ImageView
+        android:id="@+id/imageViewShowMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/textViewContent"
+        app:layout_constraintTop_toTopOf="@+id/textViewUsername"
+        app:srcCompat="@drawable/ic_keyboard_arrow_down_grey_24" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#DDDDDD"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLike" />
 </androidx.constraintlayout.widget.ConstraintLayout>

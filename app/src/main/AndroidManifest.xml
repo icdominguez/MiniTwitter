@@ -14,8 +14,8 @@
         android:theme="@style/AppTheme" >
 
         <activity android:name=".ui.DashboardActivity"/>
-        <activity android:name=".ui.SignUpActivity" />
-        <activity android:name=".ui.MainActivity" >
+        <activity android:name=".ui.auth.SignUpActivity" />
+        <activity android:name=".ui.auth.MainActivity" >
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
